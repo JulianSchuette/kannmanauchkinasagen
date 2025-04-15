@@ -1,1 +1,87 @@
-nein.
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Kann man auch Kina sagen?</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      background-color: white;
+      color: #444;
+      font-family: sans-serif;
+      font-weight: bold;
+      font-size: 40pt;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      text-align: center;
+    }
+    #question {
+    	margin-bottom: 2rem;
+    }
+    #response {
+    }
+    .dot {
+      opacity: 0.2;
+      letter-spacing: 0.2em;
+      animation: fade 1.2s infinite;
+    }
+    .dot:nth-child(1) {
+      animation-delay: 0s;
+    }
+    .dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+    .dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+    @keyframes fade {
+      0% { opacity: 0.2; }
+      50% { opacity: 1; }
+      100% { opacity: 0.2; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="question">Kann man auch 'Kina' sagen?</div>
+    <div id="response">
+      <span class="dot">.</span>
+      <span class="dot">.</span>
+      <span class="dot">.</span>
+    </div>
+  </div>
+
+  <script>
+    // Antworten und ihre Wahrscheinlichkeiten
+    const answers = [
+      { text: "Nein.", weight: 2 },
+      { text: "Haha, was? Kina?", weight: 1 },
+      { text: "Leider nein.", weight: 3 },
+      { text: "Na chlar!", weight: 1 },
+      { text: "Nein, leider nicht.", weight: 1 }
+    ];
+
+    function weightedRandom(choices) {
+      const totalWeight = choices.reduce((sum, choice) => sum + choice.weight, 0);
+      let rand = Math.random() * totalWeight;
+      for (const choice of choices) {
+        if (rand < choice.weight) {
+          return choice.text;
+        }
+        rand -= choice.weight;
+      }
+    }
+
+    // Nach 2 Sekunden ersetze die Punkte durch die Antwort
+    setTimeout(() => {
+      const responseEl = document.getElementById("response");
+      responseEl.classList.remove("loading");
+      responseEl.textContent = weightedRandom(answers);
+    }, 3000);
+  </script>
+</body>
+</html>
